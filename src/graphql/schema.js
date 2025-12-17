@@ -1,9 +1,9 @@
 // node type definitions for GraphQL schema
 
-export const typeDefs = `#graphql\
+export const typeDefs = `#graphqlnex
 //user type node
 
- User{
+ type User{
     id: ID!
     name: String!
     email: String!
