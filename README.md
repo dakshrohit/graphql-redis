@@ -45,6 +45,8 @@ Client → Apollo Client → Next.js API Route → Apollo Server → GraphQL Res
 
 ### With Redis Cache
 
+![Terminal Performance Logs](assests/terminal-performance.jpg)
+
 #### First Request (Cache Miss)
 - Response time: **452.429ms**
 - Data fetched from MongoDB
@@ -56,6 +58,8 @@ Client → Apollo Client → Next.js API Route → Apollo Server → GraphQL Res
 - Response time: **70.318ms** (84% faster)
 
 **Performance Improvement**: Up to **10x faster** response times with Redis caching.
+
+![Application UI](assets/application-ui.jpg)
 
 ### Key Metrics
 
