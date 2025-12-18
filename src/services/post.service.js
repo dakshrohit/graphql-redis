@@ -1,6 +1,7 @@
 import connectDB from "@/lib/mongodb";
 import Post from "@/models/Post";
 import User from "@/models/User";
+import redis from "@/lib/redis";
 
 export async function createPost({ title, content, authorId }) {
   await connectDB();
@@ -15,6 +16,7 @@ export async function createPost({ title, content, authorId }) {
     content,
     authorId,
   });
+  await redis.del(`user:${authorId}`); // invalidate user cache
 
   return post;
 }

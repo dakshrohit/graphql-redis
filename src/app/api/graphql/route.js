@@ -6,7 +6,7 @@ import { User } from "@/models/User";
 import { Post } from "@/models/Post";
 import { createUser } from "@/services/user.service";
 import { createPost } from "@/services/post.service";
-
+import { getUserById } from "@/services/user.service";
 
 const resolvers={
     Query:{
@@ -15,10 +15,22 @@ const resolvers={
             return User.find();
         },
         
+        // user: async(_, {id})=>{
+        //     await connectDB();  
+        //     return User.findById(id);
+        // },
+
         user: async(_, {id})=>{
-            await connectDB();  
-            return User.findById(id);
-        },
+            // return await getUserById(id);
+            console.time("get user time")
+            const result= await getUserById(id);
+            console.timeEnd("get user time")
+            return result;
+
+
+        }
+
+
     },
     Mutation:{
         createUser: async(_, {input})=>{
