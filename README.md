@@ -39,6 +39,7 @@ Client → Apollo Client → Next.js API Route → Apollo Server → GraphQL Res
 ## Performance Comparison
 
 ### Without Redis (Direct MongoDB Query)
+
 - Average response time: **450-700ms**
 - Every request hits the database
 - Higher database load
@@ -48,26 +49,28 @@ Client → Apollo Client → Next.js API Route → Apollo Server → GraphQL Res
 ![Terminal Performance Logs](assests/terminal-performance.jpg)
 
 #### First Request (Cache Miss)
+
 - Response time: **452.429ms**
 - Data fetched from MongoDB
 - Result stored in Redis cache
 
 #### Subsequent Requests (Cache Hit)
+
 - Response time: **62.227ms** (86% faster)
 - Response time: **44.742ms** (90% faster)
 - Response time: **70.318ms** (84% faster)
 
 **Performance Improvement**: Up to **10x faster** response times with Redis caching.
 
-![Application UI](assets/application-ui.jpg)
+![Application UI](assests/application-ui.jpg)
 
 ### Key Metrics
 
-| Metric | Without Cache | With Cache (Hit) | Improvement |
-|--------|---------------|------------------|-------------|
-| Average Response Time | 450-700ms | 45-70ms | 85-90% |
-| Database Queries | Every request | Only on miss | 90% reduction |
-| Scalability | Limited | High | Significant |
+| Metric                | Without Cache | With Cache (Hit) | Improvement   |
+| --------------------- | ------------- | ---------------- | ------------- |
+| Average Response Time | 450-700ms     | 45-70ms          | 85-90%        |
+| Database Queries      | Every request | Only on miss     | 90% reduction |
+| Scalability           | Limited       | High             | Significant   |
 
 ## Installation
 
@@ -80,23 +83,27 @@ Client → Apollo Client → Next.js API Route → Apollo Server → GraphQL Res
 ### Setup
 
 1. Clone the repository:
+
 ```bash
 git clone <repository-url>
 cd graphql-redis-graph
 ```
 
 2. Install dependencies:
+
 ```bash
 npm install
 ```
 
 3. Create a `.env.local` file in the root directory:
+
 ```env
 MONGODB_URI=mongodb+srv://<username>:<password>@cluster.mongodb.net/<database>?retryWrites=true&w=majority
 REDIS_URL=rediss://<username>:<password>@<host>:6379
 ```
 
 4. Start the development server:
+
 ```bash
 npm run dev
 ```
@@ -154,10 +161,7 @@ query {
 ```graphql
 # Create a new user
 mutation {
-  createUser(input: {
-    name: "John Doe"
-    email: "john@example.com"
-  }) {
+  createUser(input: { name: "John Doe", email: "john@example.com" }) {
     id
     name
     email
@@ -166,11 +170,13 @@ mutation {
 
 # Create a new post
 mutation {
-  createPost(input: {
-    title: "My Post"
-    content: "Post content"
-    authorId: "user_id_here"
-  }) {
+  createPost(
+    input: {
+      title: "My Post"
+      content: "Post content"
+      authorId: "user_id_here"
+    }
+  ) {
     id
     title
     content
@@ -197,6 +203,7 @@ The caching layer is implemented in the service layer:
 ### Cache Invalidation
 
 Cache is automatically invalidated when:
+
 - A new post is created (user's cache is cleared)
 - TTL expires (60 seconds)
 
@@ -238,10 +245,10 @@ graphql-redis-graph/
 
 ## Environment Variables
 
-| Variable | Description | Example |
-|----------|-------------|---------|
-| `MONGODB_URI` | MongoDB connection string | `mongodb+srv://...` |
-| `REDIS_URL` | Redis connection URL | `rediss://...` or `redis://127.0.0.1:6379` |
+| Variable      | Description               | Example                                    |
+| ------------- | ------------------------- | ------------------------------------------ |
+| `MONGODB_URI` | MongoDB connection string | `mongodb+srv://...`                        |
+| `REDIS_URL`   | Redis connection URL      | `rediss://...` or `redis://127.0.0.1:6379` |
 
 ## Performance Monitoring
 
