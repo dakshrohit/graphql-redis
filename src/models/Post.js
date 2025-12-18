@@ -25,4 +25,4 @@ const PostSchema = new mongoose.Schema(
   }
 );
 
-export default mongoose.models.Post || mongoose.model("Post", PostSchema);
+export const Post = mongoose.models.Post || mongoose.model("Post", PostSchema);

@@ -1,7 +1,7 @@
 // node type definitions for GraphQL schema
 
-export const typeDefs = `#graphqlnex
-//user type node
+export const typeDefs = `#graphql
+# user type node
 
  type User{
     id: ID!
@@ -10,7 +10,7 @@ export const typeDefs = `#graphqlnex
     posts: [Post!]!
 }
 
-//post type node
+# post type node
 
 type Post{
     id: ID!
@@ -19,29 +19,29 @@ type Post{
     author: User!
 }
 
-// input types for writing mutations - data needed to create users and posts
+# input types for writing mutations - data needed to create users and posts
 
 input CreateUserInput{
     name: String!
     email: String!
 }
 
-// input type for creating posts
+# input type for creating posts
 input CreatePostInput{
     title: String!
     content: String!
     authorId: ID!
 }
 
-//query type node -- read-only data operations
+# query type node -- read-only data operations
 
 type Query{
-users: [User!]!          //list of users
-user(id: ID!): User      //single user by id
+users: [User!]!
+user(id: ID!): User
 }
 
 
-//mutation type node - changeable data operations
+# mutation type node - changeable data operations
 type Mutation{
     createUser(input: CreateUserInput!): User!
     createPost(input: CreatePostInput!): Post!

@@ -1,9 +1,9 @@
 import { ApolloServer } from "@apollo/server";
 import { startServerAndCreateNextHandler } from "@as-integrations/next";
-import { typeDefs } from "@/app/api/graphql/schema";
 import { connectDB } from "@/lib/mongodb";
-import { User } from "@/models/User";
-import { Post } from "@/models/Post";
+import { typeDefs } from "@/graphql/schema";
+import  {User}  from "@/models/User";
+import  {Post}  from "@/models/Post";
 import { createUser } from "@/services/user.service";
 import { createPost } from "@/services/post.service";
 import { getUserById } from "@/services/user.service";
@@ -21,13 +21,11 @@ const resolvers={
         // },
 
         user: async(_, {id})=>{
-            // return await getUserById(id);
-            console.time("get user time")
+            const timerLabel = `get user ${id} - ${Date.now()}`;
+            console.time(timerLabel);
             const result= await getUserById(id);
-            console.timeEnd("get user time")
+            console.timeEnd(timerLabel);
             return result;
-
-
         }
 
 
@@ -41,7 +39,9 @@ const resolvers={
         },
             
 
-    User:{
+    
+},
+User:{
         posts: async(parent)=>{
             await connectDB();
             return Post.find({authorId: parent.id});
@@ -53,7 +53,6 @@ const resolvers={
             return User.findById(parent.authorId);
         }
     }
-}
 };
 
 const server = new ApolloServer({

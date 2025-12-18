@@ -1,10 +1,11 @@
-import connectDB from "@/lib/mongodb";
-import Post from "@/models/Post";
-import User from "@/models/User";
-import redis from "@/lib/redis";
+import { connectDB } from "@/lib/mongodb";
+import { Post } from "@/models/Post";
+import { User } from "@/models/User";
+import { ensureRedis } from "@/lib/redis";
 
 export async function createPost({ title, content, authorId }) {
   await connectDB();
+  const client = await ensureRedis();
 
   const user = await User.findById(authorId);
   if (!user) {
@@ -16,7 +17,7 @@ export async function createPost({ title, content, authorId }) {
     content,
     authorId,
   });
-  await redis.del(`user:${authorId}`); // invalidate user cache
+  await client.del(`user:${authorId}`); // invalidate user cache
 
   return post;
 }
