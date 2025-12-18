@@ -4,6 +4,8 @@ import { typeDefs } from "@/app/api/graphql/schema";
 import { connectDB } from "@/lib/mongodb";
 import { User } from "@/models/User";
 import { Post } from "@/models/Post";
+import { createUser } from "@/services/user.service";
+import { createPost } from "@/services/post.service";
 
 
 const resolvers={
@@ -17,9 +19,15 @@ const resolvers={
             await connectDB();  
             return User.findById(id);
         },
-
-
     },
+    Mutation:{
+        createUser: async(_, {input})=>{
+            return await createUser(input);
+        },
+        createPost: async(_, {input})=>{
+            return await createPost(input);
+        },
+            
 
     User:{
         posts: async(parent)=>{
@@ -34,6 +42,7 @@ const resolvers={
         }
     }
 }
+};
 
 const server = new ApolloServer({
     typeDefs,
@@ -42,3 +51,8 @@ const server = new ApolloServer({
 
 export const handler = startServerAndCreateNextHandler(server);
 export {handler as GET, handler as POST};
+
+//EXECUTION FLOW:
+// Client → HTTP Request → Apollo Server → GraphQL Schema → Resolver →
+// Service → Database → Resolver → GraphQL Schema → Apollo Server → HTTP Response → Client
+// Mutation → resolver → service → DB → selected fields returned
